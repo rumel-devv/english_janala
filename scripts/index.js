@@ -129,8 +129,26 @@ detailContainer.innerHTML=`
 
 
 `
-
-
-
 document.getElementById("my_modal_5").showModal()
 }
+
+
+document.getElementById("search-btn").addEventListener('click', () =>{
+  removeActive()
+  const input = document.getElementById("input-field")
+  const inputValu = input.value.trim().toLowerCase()
+  console.log(inputValu);
+  fetch('https://openapi.programming-hero.com/api/words/all')
+  .then (res => res.json())
+  .then (data => {
+    const allWords = data.data
+    console.log(allWords);
+    const filterWords =  allWords.filter((word) => word.word.toLowerCase().includes(inputValu))
+    if(filterWords.length === 0){
+        alert(`Word did not Foound
+          Try diffrent Word `)
+    }else{
+      displayLevelWords(filterWords)
+    }
+  })
+})
